@@ -1,32 +1,17 @@
-var Sequelize = require("sequelize");
-var basename = path.basename(__filename);
-var env = process.env.NODE_ENV || "development";
-var config = require(__dirname + "/../config/config.json")[env];
-var db = {};
+const express = require("express");
+const router = express.Router();
 
-if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  var sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
-
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf(".") !== 0) && (file !== basename) && (file.slice(-3) === ".js");
-  })
-  .forEach(file => {
-    var model = sequelize["import"](path.join(__dirname, file));
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
+router.get("/", function(req, res) {
+  res.render("username", { title: "Registration" });
 });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+router.post("register", function(req, res) {
+  // res.render("username", {title: "Registration Complete"});
+  username = req.body.username;
+  email = req.body.email;
+  password = req.body.password;
 
-module.exports = db;
+  const db = require("connection.js");
+});
+
+module.exports = router;
